@@ -1,0 +1,24 @@
+Execution trace. The information below will show the values of all
+the rules evaluated. Note that some rules may be missing if
+short-circuit logic was taken.
+
+Note that for collection types and long strings, output may be
+truncated; re-run "sentinel apply" with the -json flag to see the
+full contents of these values.
+
+The trace is displayed due to a failed policy.
+
+Fail - digital-sovereignty.sentinel
+
+Description:
+  L00205530 - Digital Sovereignty Policy
+  Initial control: restrict the requested AWS region to Ireland.
+
+digital-sovereignty.sentinel:12:1 - Rule "main"
+  Value:
+    false
+
+digital-sovereignty.sentinel:8:1 - Rule "region_is_approved"
+  Value:
+    false
+
