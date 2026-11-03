@@ -1,4 +1,4 @@
-﻿output "aws_region" {
+output "aws_region" {
   description = "Configured AWS deployment region"
   value       = var.aws_region
 }

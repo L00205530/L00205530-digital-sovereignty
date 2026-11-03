@@ -1,4 +1,4 @@
-﻿resource "aws_security_group" "application" {
+resource "aws_security_group" "application" {
   name        = "l00205530-application-sg"
   description = "Security group managed by the L00205530 policy framework"
 
