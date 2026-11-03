@@ -1,0 +1,6 @@
+﻿variables = {
+    "aws_region": {
+        "name": "aws_region",
+        "value": "us-east-1",
+    },
+}
