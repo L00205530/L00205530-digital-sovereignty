@@ -1,0 +1,14 @@
+﻿# L00205530 - Digital Sovereignty Policy
+# Initial control: restrict the requested AWS region to Ireland.
+
+import "tfplan/v2" as tfplan
+
+approved_regions = ["eu-west-1"]
+
+region_is_approved = rule {
+    tfplan.variables["aws_region"].value in approved_regions
+}
+
+main = rule {
+    region_is_approved
+}
