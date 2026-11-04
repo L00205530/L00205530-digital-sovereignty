@@ -1,0 +1,20 @@
+﻿# L00205530 - Provider Supply Chain Security Policy
+# Allow only approved Terraform provider sources and constraints.
+
+import "tfconfig/v2" as tfconfig
+
+approved_providers = {
+    "registry.terraform.io/hashicorp/aws": "~> 5.0",
+}
+
+provider_is_approved = rule {
+    length(tfconfig.providers) > 0 and
+    all tfconfig.providers as _, provider {
+        provider.full_name in keys(approved_providers) and
+        provider.version_constraint is approved_providers[provider.full_name]
+    }
+}
+
+main = rule {
+    provider_is_approved
+}
