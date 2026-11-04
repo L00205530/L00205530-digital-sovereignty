@@ -1,0 +1,6 @@
+﻿providers = {
+    "untrusted": {
+        "full_name": "registry.terraform.io/example/untrusted",
+        "version_constraint": ">= 1.0.0",
+    },
+}
