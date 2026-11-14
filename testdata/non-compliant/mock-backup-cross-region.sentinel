@@ -1,0 +1,22 @@
+﻿resource_changes = {
+    "aws_backup_plan.cross_region": {
+        "type": "aws_backup_plan",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "name": "l00205530-cross-region-backup",
+                "rule": [
+                    {
+                        "rule_name": "daily-backup",
+                        "target_vault_name": "l00205530-primary-vault",
+                        "copy_action": [
+                            {
+                                "destination_vault_arn": "arn:aws:backup:eu-central-1:123456789012:backup-vault:external-backup",
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    },
+}
