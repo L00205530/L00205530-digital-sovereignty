@@ -1,0 +1,14 @@
+﻿providers = {
+    "aws": {
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "~> 5.0",
+    },
+}
+
+module = {
+    "module_calls": {
+        "unpinned_vpc": {
+            "source": "terraform-aws-modules/vpc/aws",
+        },
+    },
+}
