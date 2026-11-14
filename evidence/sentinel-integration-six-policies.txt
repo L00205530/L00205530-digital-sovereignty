@@ -1,0 +1,6 @@
+﻿Pass - data-residency.sentinel
+Pass - digital-sovereignty.sentinel
+Pass - ec2-security.sentinel
+Pass - module-supply-chain.sentinel
+Pass - network-security.sentinel
+Pass - provider-supply-chain.sentinel
