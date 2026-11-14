@@ -1,0 +1,19 @@
+﻿resource_changes = {
+    "aws_backup_plan.standard": {
+        "type": "aws_backup_plan",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "name": "l00205530-backup-plan",
+                "rule": [
+                    {
+                        "rule_name": "daily-backup",
+                        "target_vault_name": "l00205530-primary-vault",
+                        "schedule": "cron(0 5 * * ? *)",
+                        "copy_action": [],
+                    },
+                ],
+            },
+        },
+    },
+}

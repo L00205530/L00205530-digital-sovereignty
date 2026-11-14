@@ -1,0 +1,14 @@
+﻿resource_changes = {
+    "aws_db_instance.replica": {
+        "type": "aws_db_instance",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "identifier": "l00205530-replica",
+                "replicate_source_db": "arn:aws:rds:eu-central-1:123456789012:db:source-db",
+                "storage_encrypted": true,
+                "publicly_accessible": false,
+            },
+        },
+    },
+}

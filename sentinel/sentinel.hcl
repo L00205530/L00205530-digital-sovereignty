@@ -18,6 +18,10 @@ policy "network-security" {
     enforcement_level = "hard-mandatory"
 }
 
+policy "data-residency" {
+    source            = "./data-residency.sentinel"
+    enforcement_level = "hard-mandatory"
+}
 mock "tfplan/v2" {
     module {
         source = "../testdata/compliant/mock-tfplan-v2.sentinel"

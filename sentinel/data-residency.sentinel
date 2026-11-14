@@ -1,0 +1,75 @@
+﻿# L00205530 - Data Residency Policy
+# Prevent unverified S3 and RDS replication configurations.
+
+import "tfplan/v2" as tfplan
+
+replication_changes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_s3_bucket_replication_configuration" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+rds_instance_changes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_db_instance" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+rds_cluster_changes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_rds_cluster" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# S3 destination regions cannot be established
+# from bucket ARNs alone.
+
+s3_replication_is_controlled = rule {
+    length(replication_changes) is 0
+}
+
+# Reject new or updated RDS read replicas unless
+# their source region can be independently verified.
+
+rds_instance_replication_is_controlled = rule {
+    all rds_instance_changes as _, rc {
+        rc.change.after is not null and
+        (rc.change.after.replicate_source_db else null) is null
+    }
+}
+
+# Reject new or updated RDS clusters that declare
+# a replication source or global cluster membership.
+
+rds_cluster_replication_is_controlled = rule {
+    all rds_cluster_changes as _, rc {
+        rc.change.after is not null and
+        (rc.change.after.replication_source_identifier else null) is null and
+        (rc.change.after.global_cluster_identifier else null) is null
+    }
+}
+
+# Inspect new or updated AWS Backup plans.
+backup_plan_changes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_backup_plan" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# Reject copy actions until destination vault regions
+# can be independently verified.
+backup_copy_destinations_are_controlled = rule {
+    all backup_plan_changes as _, rc {
+        rc.change.after is not null and
+        all (rc.change.after.rule else []) as backup_rule {
+            length(backup_rule.copy_action else []) is 0
+        }
+    }
+}
+main = rule {
+    s3_replication_is_controlled and
+    rds_instance_replication_is_controlled and
+    rds_cluster_replication_is_controlled and
+    backup_copy_destinations_are_controlled
+}
+
