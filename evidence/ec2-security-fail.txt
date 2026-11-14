@@ -1,0 +1,23 @@
+﻿Execution trace. The information below will show the values of all
+the rules evaluated. Note that some rules may be missing if
+short-circuit logic was taken.
+
+Note that for collection types and long strings, output may be
+truncated; re-run "sentinel apply" with the -json flag to see the
+full contents of these values.
+
+The trace is displayed due to a failed policy.
+
+Fail - ec2-security.sentinel
+
+Description:
+  L00205530 - EC2 Infrastructure Security Policy
+
+ec2-security.sentinel:24:1 - Rule "main"
+  Value:
+    false
+
+ec2-security.sentinel:12:1 - Rule "ec2_is_secure"
+  Value:
+    false
+
