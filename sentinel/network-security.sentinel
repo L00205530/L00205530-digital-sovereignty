@@ -1,0 +1,53 @@
+# L00205530 - Network Security Policy
+# Enforce approved SSH administrative access.
+
+import "tfplan/v2" as tfplan
+
+approved_ssh_cidrs = ["203.0.113.10/32"]
+
+security_group_changes = filter tfplan.resource_changes as _, rc {
+	rc.type is "aws_security_group" and
+		(rc.change.actions contains "create" or
+			rc.change.actions contains "update")
+}
+
+is_ssh_rule = func(ingress) {
+	protocol = ingress.protocol else ""
+	from_port = ingress.from_port else -1
+	to_port = ingress.to_port else -1
+
+	return protocol is "-1" or
+		(protocol in ["tcp", "6"] and
+			from_port <= 22 and
+			to_port >= 22)
+}
+
+ssh_source_is_approved = func(ingress) {
+	cidrs = ingress.cidr_blocks else []
+	ipv6 = ingress.ipv6_cidr_blocks else []
+	prefixes = ingress.prefix_list_ids else []
+	groups = ingress.security_groups else []
+	self_reference = ingress.self else false
+
+	return all cidrs as cidr {
+		cidr in approved_ssh_cidrs
+	} and
+		length(ipv6) is 0 and
+		length(prefixes) is 0 and
+		length(groups) is 0 and
+		self_reference is false and
+		length(cidrs) > 0
+}
+
+ssh_ingress_is_restricted = rule {
+	all security_group_changes as _, rc {
+		rc.change.after is not null and
+			all (rc.change.after.ingress else []) as ingress {
+				not is_ssh_rule(ingress) or ssh_source_is_approved(ingress)
+			}
+	}
+}
+
+main = rule {
+	ssh_ingress_is_restricted
+}

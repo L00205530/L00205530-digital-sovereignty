@@ -13,6 +13,11 @@ policy "ec2-security" {
     enforcement_level = "hard-mandatory"
 }
 
+policy "network-security" {
+    source            = "./network-security.sentinel"
+    enforcement_level = "hard-mandatory"
+}
+
 mock "tfplan/v2" {
     module {
         source = "../testdata/compliant/mock-tfplan-v2.sentinel"
