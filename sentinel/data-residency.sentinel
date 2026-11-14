@@ -49,8 +49,27 @@ rds_cluster_replication_is_controlled = rule {
     }
 }
 
+# Inspect new or updated AWS Backup plans.
+backup_plan_changes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_backup_plan" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# Reject copy actions until destination vault regions
+# can be independently verified.
+backup_copy_destinations_are_controlled = rule {
+    all backup_plan_changes as _, rc {
+        rc.change.after is not null and
+        all (rc.change.after.rule else []) as backup_rule {
+            length(backup_rule.copy_action else []) is 0
+        }
+    }
+}
 main = rule {
     s3_replication_is_controlled and
     rds_instance_replication_is_controlled and
-    rds_cluster_replication_is_controlled
+    rds_cluster_replication_is_controlled and
+    backup_copy_destinations_are_controlled
 }
+
