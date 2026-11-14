@@ -1,0 +1,23 @@
+﻿resource_changes = {
+    "aws_instance.application": {
+        "type": "aws_instance",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "instance_type": "t3.small",
+                "associate_public_ip_address": false,
+                "root_block_device": [
+                    {"encrypted_missing": true},
+                ],
+                "metadata_options": [
+                    {"http_tokens": "required"},
+                ],
+                "tags": {
+                    "Organisation": "L00205530",
+                    "Environment": "assignment",
+                },
+            },
+        },
+    },
+}
+

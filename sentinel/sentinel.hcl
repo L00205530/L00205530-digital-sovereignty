@@ -8,6 +8,11 @@ policy "provider-supply-chain" {
     enforcement_level = "hard-mandatory"
 }
 
+policy "ec2-security" {
+    source            = "./ec2-security.sentinel"
+    enforcement_level = "hard-mandatory"
+}
+
 mock "tfplan/v2" {
     module {
         source = "../testdata/compliant/mock-tfplan-v2.sentinel"

@@ -1,0 +1,31 @@
+﻿# L00205530 - EC2 Infrastructure Security Policy
+
+import "tfplan/v2" as tfplan
+
+approved_types = ["t3.micro", "t3.small", "t3.medium"]
+
+ec2_resources = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_instance" and
+    rc.change.actions contains "create" or rc.change.actions contains "update"
+}
+
+ec2_is_secure = rule {
+    
+    all ec2_resources as _, rc {
+        rc.change.after is not null and
+        rc.change.after.instance_type in approved_types and
+        rc.change.after.associate_public_ip_address is false and
+        ((rc.change.after.root_block_device[0] else {}).encrypted else false) is true and
+        ((rc.change.after.metadata_options[0] else {}).http_tokens else "") is "required" and
+        ((rc.change.after.tags else {}).Organisation else "") is not "" and
+        ((rc.change.after.tags else {}).Environment else "") is not ""
+    }
+}
+
+main = rule {
+    ec2_is_secure
+}
+
+
+
+
