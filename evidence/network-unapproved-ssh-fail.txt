@@ -1,0 +1,24 @@
+﻿Execution trace. The information below will show the values of all
+the rules evaluated. Note that some rules may be missing if
+short-circuit logic was taken.
+
+Note that for collection types and long strings, output may be
+truncated; re-run "sentinel apply" with the -json flag to see the
+full contents of these values.
+
+The trace is displayed due to a failed policy.
+
+Fail - network-security.sentinel
+
+Description:
+  L00205530 - Network Security Policy
+  Enforce approved SSH administrative access.
+
+network-security.sentinel:51:1 - Rule "main"
+  Value:
+    false
+
+network-security.sentinel:42:1 - Rule "ssh_ingress_is_restricted"
+  Value:
+    false
+
