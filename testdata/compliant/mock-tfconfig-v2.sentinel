@@ -4,3 +4,5 @@
         "version_constraint": "~> 5.0",
     },
 }
+
+module_calls = {}
