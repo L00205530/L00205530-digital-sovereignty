@@ -1,0 +1,28 @@
+﻿# L00205530 - Terraform Module Supply Chain Security
+# Allow only explicitly approved and version-pinned modules.
+
+import "tfconfig/v2" as tfconfig
+
+approved_modules = {
+    "terraform-aws-modules/vpc/aws": "5.1.0",
+}
+
+root_module_calls = tfconfig.module.module_calls else {}
+
+module_sources_are_approved = rule {
+    all root_module_calls as _, module_call {
+        module_call.source in keys(approved_modules)
+    }
+}
+
+module_versions_are_pinned = rule {
+    all root_module_calls as _, module_call {
+        (module_call.version_constraint else "") is
+            (approved_modules[module_call.source] else "")
+    }
+}
+
+main = rule {
+    module_sources_are_approved and
+    module_versions_are_pinned
+}

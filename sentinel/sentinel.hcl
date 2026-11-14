@@ -33,3 +33,8 @@ mock "tfconfig/v2" {
         source = "../testdata/compliant/mock-tfconfig-v2.sentinel"
     }
 }
+
+policy "module-supply-chain" {
+    source            = "./module-supply-chain.sentinel"
+    enforcement_level = "hard-mandatory"
+}
