@@ -5,10 +5,8 @@
     },
 }
 
-module = {
-    "module_calls": {
-        "untrusted_network": {
-            "source": "git::https://github.com/untrusted/network.git?ref=main",
-        },
+module_calls = {
+    "untrusted_network": {
+        "source": "git::https://github.com/untrusted/network.git?ref=main",
     },
 }

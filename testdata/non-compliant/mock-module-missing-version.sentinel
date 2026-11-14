@@ -5,10 +5,8 @@
     },
 }
 
-module = {
-    "module_calls": {
-        "unpinned_vpc": {
-            "source": "terraform-aws-modules/vpc/aws",
-        },
+module_calls = {
+    "unpinned_vpc": {
+        "source": "terraform-aws-modules/vpc/aws",
     },
 }

@@ -5,11 +5,9 @@
     },
 }
 
-module = {
-    "module_calls": {
-        "unapproved_vpc": {
-            "source": "untrusted-publisher/vpc/aws",
-            "version_constraint": "5.1.0",
-        },
+module_calls = {
+    "unapproved_vpc": {
+        "source": "untrusted-publisher/vpc/aws",
+        "version_constraint": "5.1.0",
     },
 }

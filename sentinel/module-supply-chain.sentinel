@@ -7,7 +7,7 @@ approved_modules = {
     "terraform-aws-modules/vpc/aws": "5.1.0",
 }
 
-root_module_calls = tfconfig.module.module_calls else {}
+root_module_calls = tfconfig.module_calls
 
 module_sources_are_approved = rule {
     all root_module_calls as _, module_call {
@@ -26,3 +26,4 @@ main = rule {
     module_sources_are_approved and
     module_versions_are_pinned
 }
+

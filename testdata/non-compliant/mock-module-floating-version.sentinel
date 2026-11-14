@@ -5,11 +5,9 @@
     },
 }
 
-module = {
-    "module_calls": {
-        "floating_vpc": {
-            "source": "terraform-aws-modules/vpc/aws",
-            "version_constraint": "~> 5.0",
-        },
+module_calls = {
+    "floating_vpc": {
+        "source": "terraform-aws-modules/vpc/aws",
+        "version_constraint": "~> 5.0",
     },
 }
