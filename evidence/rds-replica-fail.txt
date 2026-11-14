@@ -1,0 +1,28 @@
+﻿Execution trace. The information below will show the values of all
+the rules evaluated. Note that some rules may be missing if
+short-circuit logic was taken.
+
+Note that for collection types and long strings, output may be
+truncated; re-run "sentinel apply" with the -json flag to see the
+full contents of these values.
+
+The trace is displayed due to a failed policy.
+
+Fail - data-residency.sentinel
+
+Description:
+  L00205530 - Data Residency Policy
+  Prevent unverified S3 and RDS replication configurations.
+
+data-residency.sentinel:52:1 - Rule "main"
+  Value:
+    false
+
+data-residency.sentinel:34:1 - Rule "rds_instance_replication_is_controlled"
+  Value:
+    false
+
+data-residency.sentinel:27:1 - Rule "s3_replication_is_controlled"
+  Value:
+    true
+
