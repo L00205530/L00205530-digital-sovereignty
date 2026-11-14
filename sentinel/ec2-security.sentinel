@@ -16,7 +16,7 @@ ec2_is_secure = rule {
         rc.change.after.instance_type in approved_types and
         rc.change.after.associate_public_ip_address is false and
         rc.change.after.root_block_device[0].encrypted is true and
-        rc.change.after.metadata_options[0].http_tokens is "required" and
+        ((rc.change.after.metadata_options[0] else {}).http_tokens else "") is "required" and
         rc.change.after.tags.Organisation is not "" and
         rc.change.after.tags.Environment is not ""
     }
