@@ -1,0 +1,14 @@
+﻿providers = {
+    "aws": {
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "~> 5.0",
+    },
+}
+
+module = {
+    "module_calls": {
+        "untrusted_network": {
+            "source": "git::https://github.com/untrusted/network.git?ref=main",
+        },
+    },
+}
