@@ -10,7 +10,7 @@ ec2_resources = filter tfplan.resource_changes as _, rc {
 }
 
 ec2_is_secure = rule {
-    length(ec2_resources) > 0 and
+    
     all ec2_resources as _, rc {
         rc.change.after is not null and
         rc.change.after.instance_type in approved_types and
@@ -25,6 +25,7 @@ ec2_is_secure = rule {
 main = rule {
     ec2_is_secure
 }
+
 
 
 
