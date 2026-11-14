@@ -1,0 +1,25 @@
+﻿# L00205530 - Data Residency Policy
+# Prevent unverified S3 replication destinations.
+
+import "tfplan/v2" as tfplan
+
+replication_changes = filter tfplan.resource_changes as _, rc {
+    rc.type is "aws_s3_bucket_replication_configuration" and
+    (rc.change.actions contains "create" or
+     rc.change.actions contains "update")
+}
+
+# S3 replication destinations cannot be region-verified
+# from bucket ARNs alone.
+#
+# Until an authoritative region verification mechanism
+# is implemented, new or modified replication
+# configurations are denied.
+
+s3_replication_is_controlled = rule {
+    length(replication_changes) is 0
+}
+
+main = rule {
+    s3_replication_is_controlled
+}
