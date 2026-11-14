@@ -128,6 +128,13 @@ Prompt example:
 
 "Here is my git log --oneline and git status --short output. Can you confirm that my changes were committed correctly and that my feature branch is ready for a pull request?"
 
+Example 7 — Documentation Drafting and Review
+
+Prompt example:
+
+"Can you help me structure my README and technical report based on the Terraform configuration, Sentinel policies and testing evidence I have provided? Include the security decisions, limitations and testing methodology."
+
+
 ## Summary of AI Assistance:
 
 
@@ -136,6 +143,7 @@ ChatGPT was used primarily to support technical troubleshooting, explain error m
 
 
 Terraform and Sentinel commands were executed locally by myself. Test results were inspected before being recorded as evidence, and Git changes were committed through my development environment.
+
 
 
 
