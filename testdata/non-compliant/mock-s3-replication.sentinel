@@ -1,0 +1,22 @@
+﻿resource_changes = {
+    "aws_s3_bucket_replication_configuration.example": {
+        "type": "aws_s3_bucket_replication_configuration",
+        "change": {
+            "actions": ["create"],
+            "after": {
+                "bucket": "l00205530-source",
+                "role": "arn:aws:iam::123456789012:role/s3-replication",
+                "rule": [
+                    {
+                        "status": "Enabled",
+                        "destination": [
+                            {
+                                "bucket": "arn:aws:s3:::l00205530-external-backup",
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    },
+}
