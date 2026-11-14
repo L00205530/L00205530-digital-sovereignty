@@ -17,13 +17,14 @@ ec2_is_secure = rule {
         rc.change.after.associate_public_ip_address is false and
         ((rc.change.after.root_block_device[0] else {}).encrypted else false) is true and
         ((rc.change.after.metadata_options[0] else {}).http_tokens else "") is "required" and
-        rc.change.after.tags.Organisation is not "" and
-        rc.change.after.tags.Environment is not ""
+        ((rc.change.after.tags else {}).Organisation else "") is not "" and
+        ((rc.change.after.tags else {}).Environment else "") is not ""
     }
 }
 
 main = rule {
     ec2_is_secure
 }
+
 
 
