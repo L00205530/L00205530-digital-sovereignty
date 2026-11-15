@@ -531,6 +531,3 @@ This screenshot index provides direct access to the supporting visual evidence.
 
 
 \*\*Student ID:\*\* L00205530
-
-
-
