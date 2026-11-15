@@ -98,6 +98,17 @@ The checked-in `terraform/tfplan` is a generated demonstration artifact. It is n
 
 ## Testing and evidence
 
+Testing was performed locally using Windows PowerShell, Terraform CLI and HashiCorp Sentinel CLI.
+
+### Testing and Validation
+
+- All six Sentinel policies passed the compliant baseline evaluation.
+- Positive and negative tests verified acceptance of compliant configurations and rejection of selected policy violations.
+- Terraform initialisation, configuration validation and plan generation were completed.
+- A total of 24 screenshots document Terraform testing, Sentinel evaluations and Git workflow activity.
+
+The screenshots are organised by category in the [Screenshot Evidence Index](screenshots/README.md).
+
 The repository records positive and negative test outcomes across multiple controls. Key evidence includes:
 
 - `evidence/sovereignty-pass.txt` and `evidence/sovereignty-fail.txt`
@@ -140,6 +151,13 @@ Development used feature branches, focused commits, local validation, and pull r
 
 AI assistance was used to help explain Terraform/Sentinel concepts, propose test cases, troubleshoot fixture syntax and draft documentation. Commands and policy results were executed and checked locally by the student. The final submission should include a truthful account of prompts, generated suggestions, independent verification and any modifications made, in the format required by the module. **Do not treat this paragraph alone as a substitute for an explicit prompt-level disclosure if the assessment requires one.**
 
-## Technical report
+### Project Documentation
 
-See `report/technical-report.md` once completed for a concise discussion of design decisions, results and limitations.
+| Document | Purpose |
+|---|---|
+| [Screenshot Evidence Index](screenshots/README.md) | Direct access to 24 testing screenshots |
+| [Technical Report](report/technical-report.md) | One-page technical report |
+| [Research and AI Usage](docs/research-and-ai-usage.md) | Research references and AI disclosure |
+| [Test Evidence](evidence/) | Saved Sentinel test results |
+| [Test Configurations](testdata/) | Compliant and non-compliant test fixtures |
+
