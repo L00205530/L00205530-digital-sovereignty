@@ -3,26 +3,38 @@
 **Student ID:** L00205530  
 **Project:** Terraform and HashiCorp Sentinel Policy-as-Code Framework
 
-## Purpose and approach
+### Purpose and implementation
 
-This project explores how Policy-as-Code can help an Irish organisation review cloud infrastructure changes before deployment. Terraform defines a small AWS demonstration environment, while six HashiCorp Sentinel policies evaluate selected regional, security and software supply-chain requirements. The implementation is intended as a reproducible proof of concept, **not** a deployed or independently certified sovereignty solution.
+This project evaluates how Policy-as-Code can support digital sovereignty and infrastructure-as-code (IaC) supply-chain security for an Irish organisation. Terraform defines a small AWS demonstration configuration, while six HashiCorp Sentinel policies evaluate selected security and compliance requirements before infrastructure deployment.
 
-## Design and security decisions
+The Terraform configuration targets AWS Ireland (`eu-west-1`) and demonstrates EC2 security controls, including encrypted root storage, mandatory IMDSv2, restricted SSH access and no public IP address.
 
-The Terraform example selects `eu-west-1` (Ireland) by default and defines an EC2 instance with no public IP address, encrypted root EBS storage by default, and IMDSv2 token enforcement. Its security group restricts SSH ingress to a configurable `/32` address and permits HTTPS egress. The default AMI and SSH address are illustrative placeholders and require replacement before deployment.
+Six Sentinel policies cover geographical restrictions, provider supply-chain security, EC2 configuration, network security, data residency and trusted Terraform modules. Provider and module restrictions aim to reduce exposure to unapproved dependencies.
 
-Six Sentinel policies are configured as `hard-mandatory`: **digital sovereignty** (approved region), **provider supply chain** (provider source and version constraints), **EC2 security** (selected instance protections and metadata), **network security** (security-group exposure), **data residency** (selected S3, RDS and backup replication scenarios), and **module supply chain** (approved module sources and exact versions). The module allowlist permits `terraform-aws-modules/vpc/aws` at version `5.1.0` in the tested configuration. Allowlisting is deliberately restrictive to reduce unreviewed dependencies.
+### Testing and results
 
-## Validation and evidence
+Testing was performed locally using Windows PowerShell, Terraform CLI, Sentinel CLI and compliant/non-compliant mock configurations.
 
-Local `sentinel apply` integration testing returned **PASS for all six policies** with compliant mocks. Separate negative fixtures demonstrated rejection of selected unsafe configurations, including unrestricted or unapproved SSH access, prohibited cross-region data movement, untrusted module sources, and missing or floating module versions. The module supply-chain suite included a compliant baseline, an approved versioned module and four rejection cases. Test outputs are retained under `evidence/`, including `sentinel-integration-six-policies.txt`; source fixtures are in `testdata/`. Terraform configuration validation and provider dependency lock evidence are also included. Feature branches, incremental commits and eight merged pull requests document the development workflow.
+All six Sentinel policies passed the compliant baseline evaluation. Additional negative tests demonstrated rejection of selected violations, including unrestricted SSH access, prohibited cross-region replication, untrusted module sources and missing or floating module versions.
 
-## Limitations and improvements
+Terraform validation, the generated `tfplan`, Sentinel evaluation outputs and dependency verification are documented in the GitHub repository. Screenshot evidence is organised under `screenshots/`, with an accompanying index.
 
-**Local mock tests do not establish live enforcement.** No HCP Terraform Sentinel enforcement or AWS deployment is demonstrated. The Terraform example contains no real S3, RDS or backup resources; those controls are exercised using mocks. Restricting the AWS region does not, by itself, guarantee that all data, logs, metadata or managed-service dependencies remain in Ireland. Policy coverage is limited to the resource types and conditions explicitly checked, and source/version allowlists do not detect vulnerabilities or verify module code integrity. The Terraform provider lock file does not lock modules.
+### Limitations
 
-Future work should validate policies against real Terraform configuration and plan data, test supported HCP Terraform enforcement, expand service and edge-case coverage, add approved Git commit-SHA rules, and introduce automated dependency scanning and policy regression checks in CI/CD.
+**The implementation demonstrates local Sentinel policy evaluation, not live enforcement in HCP Terraform.** No HCP Terraform policy set was integrated, and no AWS infrastructure was deployed. Therefore, the results demonstrate policy decisions against test fixtures rather than verified prevention of production deployments.
+
+Region restrictions alone cannot guarantee complete Irish data sovereignty because logs, metadata, administrative access and service dependencies may cross jurisdictional boundaries.
+
+Sentinel checks are limited to explicitly implemented conditions. Provider allowlists and version constraints do not independently guarantee dependency integrity or eliminate software vulnerabilities.
+
+### Recommendations and conclusion
+
+Future improvements should integrate Sentinel with HCP Terraform, validate policies against representative live Terraform plans, expand resource coverage and introduce automated regression testing, dependency scanning and provenance verification.
+
+The project demonstrates the value of Policy-as-Code for identifying selected infrastructure risks before deployment. However, effective digital sovereignty requires additional operational, organisational and jurisdictional controls beyond Terraform and Sentinel.
 
 ## Reflection
 
-The main learning outcome was separating **configuration intent**, **policy decisions**, and **evidence of enforcement**. Positive tests show approved examples are accepted; negative tests demonstrate that selected violations are rejected. Both are needed, but neither replaces testing against real deployment workflows. AI assistance supported troubleshooting and documentation; local commands and results were checked during development, and AI usage should be disclosed separately in the format required by the assignment.
+The main learning outcome was separating **configuration intent**, **policy decisions**, and **evidence of enforcement**. Positive tests show approved examples are accepted; negative tests demonstrate that selected violations are rejected. Both are needed, but neither replaces testing against real deployment workflows. AI assistance supported troubleshooting and documentation; local commands and results were checked during development.
+
+**Repository:** https://github.com/L00205530/L00205530-digital-sovereignty
